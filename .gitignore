@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local eval / workspace artifacts (workspace lives outside the repo by default)
+*-workspace/
+.claude/
+
+# Bump-schema temp file (cleanup happens via trap, but defensively)
+skills/cloudwatch-agent-config/schema/schema.json.new

@@ -1,0 +1,58 @@
+{
+  "agent": {
+    "run_as_user": "root",
+    "metrics_collection_interval": 60
+  },
+  "metrics": {
+    "namespace": "MyApp/Processes",
+    "append_dimensions": {
+      "InstanceId": "${aws:InstanceId}"
+    },
+    "metrics_collected": {
+      "procstat": [
+        {
+          "pid_file": "/var/run/nginx.pid",
+          "measurement": [
+            "cpu_usage",
+            "memory_rss",
+            "memory_vms",
+            "num_fds",
+            "num_threads"
+          ],
+          "metrics_collection_interval": 60,
+          "append_dimensions": {
+            "ProcessName": "nginx"
+          }
+        },
+        {
+          "exe": "postgres",
+          "measurement": [
+            "cpu_usage",
+            "memory_rss",
+            "read_bytes",
+            "write_bytes",
+            "num_threads"
+          ],
+          "metrics_collection_interval": 30,
+          "append_dimensions": {
+            "ProcessName": "postgres"
+          }
+        },
+        {
+          "pattern": "java .*-jar .*myapp\\.jar",
+          "measurement": [
+            "cpu_usage",
+            "memory_rss",
+            "num_threads",
+            "voluntary_context_switches",
+            "involuntary_context_switches"
+          ],
+          "metrics_collection_interval": 30,
+          "append_dimensions": {
+            "ProcessName": "myapp-jvm"
+          }
+        }
+      ]
+    }
+  }
+}

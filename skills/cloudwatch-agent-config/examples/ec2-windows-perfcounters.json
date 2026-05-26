@@ -1,0 +1,117 @@
+{
+  "agent": {
+    "metrics_collection_interval": 60,
+    "logfile": "c:\\ProgramData\\Amazon\\AmazonCloudWatchAgent\\Logs\\amazon-cloudwatch-agent.log"
+  },
+  "metrics": {
+    "namespace": "MyApp/Windows",
+    "append_dimensions": {
+      "InstanceId": "${aws:InstanceId}",
+      "InstanceType": "${aws:InstanceType}"
+    },
+    "metrics_collected": {
+      "Processor": {
+        "measurement": [
+          {"name": "% Idle Time", "rename": "CPU_IDLE", "unit": "Percent"},
+          "% Interrupt Time",
+          "% User Time",
+          "% Processor Time"
+        ],
+        "resources": ["*"],
+        "metrics_collection_interval": 60
+      },
+      "LogicalDisk": {
+        "measurement": [
+          {"name": "% Free Space", "unit": "Percent"},
+          "Free Megabytes",
+          "Disk Read Bytes/sec",
+          "Disk Write Bytes/sec"
+        ],
+        "resources": ["*"],
+        "metrics_collection_interval": 60
+      },
+      "Memory": {
+        "measurement": [
+          "Available Bytes",
+          "Available MBytes",
+          {"name": "% Committed Bytes In Use", "rename": "MemoryCommittedPercent", "unit": "Percent"}
+        ],
+        "metrics_collection_interval": 60
+      },
+      "Paging File": {
+        "measurement": [
+          {"name": "% Usage", "unit": "Percent"}
+        ],
+        "resources": ["*"]
+      },
+      "PhysicalDisk": {
+        "measurement": [
+          "% Disk Time",
+          "Disk Reads/sec",
+          "Disk Writes/sec"
+        ],
+        "resources": ["*"]
+      },
+      "Network Interface": {
+        "measurement": [
+          "Bytes Received/sec",
+          "Bytes Sent/sec",
+          "Packets Received/sec",
+          "Packets Sent/sec"
+        ],
+        "resources": ["*"]
+      },
+      "System": {
+        "measurement": [
+          "Context Switches/sec",
+          "Processor Queue Length",
+          "System Calls/sec"
+        ]
+      }
+    }
+  },
+  "logs": {
+    "logs_collected": {
+      "windows_events": {
+        "collect_list": [
+          {
+            "event_name": "System",
+            "event_levels": ["ERROR", "CRITICAL"],
+            "log_group_name": "/windows/system",
+            "log_stream_name": "{instance_id}",
+            "event_format": "xml",
+            "retention_in_days": 30
+          },
+          {
+            "event_name": "Application",
+            "event_levels": ["WARNING", "ERROR", "CRITICAL"],
+            "log_group_name": "/windows/application",
+            "log_stream_name": "{instance_id}",
+            "event_format": "xml",
+            "retention_in_days": 14
+          },
+          {
+            "event_name": "Security",
+            "event_levels": ["WARNING", "ERROR", "CRITICAL"],
+            "event_ids": [4625, 4648, 4672, 4720, 4732],
+            "log_group_name": "/windows/security",
+            "log_stream_name": "{instance_id}",
+            "event_format": "xml",
+            "retention_in_days": 90
+          }
+        ]
+      },
+      "files": {
+        "collect_list": [
+          {
+            "file_path": "C:\\inetpub\\logs\\LogFiles\\W3SVC1\\*.log",
+            "log_group_name": "/iis/site1",
+            "log_stream_name": "{instance_id}",
+            "retention_in_days": 14,
+            "timezone": "UTC"
+          }
+        ]
+      }
+    }
+  }
+}

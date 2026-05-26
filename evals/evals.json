@@ -1,0 +1,33 @@
+{
+  "skill_name": "cloudwatch-agent-config",
+  "evals": [
+    {
+      "id": 1,
+      "name": "ec2-linux-nginx-logs",
+      "prompt": "I have an EC2 Linux box running nginx and I want the cloudwatch agent to ship CPU, memory, disk usage, and tail /var/log/nginx/access.log and /var/log/nginx/error.log into CloudWatch Logs. Give me a config and the IAM policy I'll need. 14-day retention on the access log is fine.",
+      "expected_output": "A valid amazon-cloudwatch-agent.json with an `agent` block, `metrics.metrics_collected.{cpu,mem,disk}`, `logs.logs_collected.files.collect_list` for both nginx files with log_group_name and retention_in_days set, plus a least-privilege IAM policy.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "eks-prometheus-emf",
+      "prompt": "Setting up the cloudwatch agent on EKS to scrape a Spring Boot app's /actuator/prometheus endpoint. I want jvm_memory_bytes_used and http_server_requests_seconds_count to show up as actual CloudWatch metrics (not just log lines) with ClusterName and Namespace dimensions. Cluster is called 'prod-eks-1'.",
+      "expected_output": "Config with `logs.metrics_collected.prometheus` including prometheus_config_path, cluster_name='prod-eks-1', and an emf_processor with metric_declaration entries naming the two metrics with [ClusterName, Namespace] dimensions. Mention of the separate Prometheus YAML file the user needs (kubernetes_sd_configs).",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "windows-event-logs",
+      "prompt": "Need the cloudwatch agent on a Windows 2019 server to ship the System and Application event logs (warnings and errors only) plus disk free % and memory committed % perfcounters. Give me the json and where it goes.",
+      "expected_output": "Config with `metrics.metrics_collected.LogicalDisk` (% Free Space) and `metrics.metrics_collected.Memory` (% Committed Bytes In Use), plus `logs.logs_collected.windows_events.collect_list` for System and Application with event_levels = [WARNING, ERROR, CRITICAL]. Tell user to put it at C:\\ProgramData\\Amazon\\AmazonCloudWatchAgent\\amazon-cloudwatch-agent.json.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "statsd-procstat-combo",
+      "prompt": "Linux EC2. I want the cloudwatch agent to: (1) listen on UDP 8125 for statsd from my app, and (2) watch the postgres process and report its CPU and memory. Custom namespace 'MyApp/Prod'.",
+      "expected_output": "Config with `metrics.namespace = 'MyApp/Prod'`, `metrics_collected.statsd` with service_address ':8125', and `metrics_collected.procstat` with either pid_file or exe='postgres' and measurement including cpu_usage and memory_rss.",
+      "files": []
+    }
+  ]
+}

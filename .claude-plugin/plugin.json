@@ -1,0 +1,22 @@
+{
+  "name": "claude-skill-cloudwatch-agent",
+  "description": "Interactive wizard skill for authoring Amazon CloudWatch Agent JSON configuration files across EC2 Linux, EC2 Windows, ECS, and EKS.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Dan Burkhardt",
+    "email": "danbur19@hotmail.com"
+  },
+  "homepage": "https://github.com/danbur/claude-skill-cloudwatch-agent",
+  "license": "Apache-2.0",
+  "keywords": [
+    "aws",
+    "cloudwatch",
+    "amazon-cloudwatch-agent",
+    "observability",
+    "metrics",
+    "logs",
+    "prometheus",
+    "statsd",
+    "emf"
+  ]
+}

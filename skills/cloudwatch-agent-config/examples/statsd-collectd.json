@@ -1,0 +1,26 @@
+{
+  "agent": {
+    "run_as_user": "cwagent",
+    "metrics_collection_interval": 60
+  },
+  "metrics": {
+    "namespace": "MyApp/Custom",
+    "append_dimensions": {
+      "InstanceId": "${aws:InstanceId}"
+    },
+    "metrics_collected": {
+      "statsd": {
+        "service_address": ":8125",
+        "metrics_collection_interval": 10,
+        "metrics_aggregation_interval": 60,
+        "allowed_pending_messages": 10000
+      },
+      "collectd": {
+        "service_address": "udp://127.0.0.1:25826",
+        "name_prefix": "collectd_",
+        "metrics_aggregation_interval": 60,
+        "collectd_typesdb": ["/usr/share/collectd/types.db"]
+      }
+    }
+  }
+}

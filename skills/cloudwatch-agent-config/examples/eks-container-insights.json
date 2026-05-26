@@ -1,0 +1,52 @@
+{
+  "agent": {
+    "metrics_collection_interval": 60,
+    "logfile": "/opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log"
+  },
+  "logs": {
+    "metrics_collected": {
+      "kubernetes": {
+        "cluster_name": "my-eks-cluster",
+        "metrics_collection_interval": 60
+      },
+      "prometheus": {
+        "cluster_name": "my-eks-cluster",
+        "prometheus_config_path": "/etc/prometheusconfig/prometheus.yaml",
+        "emf_processor": {
+          "metric_declaration_dedup": true,
+          "metric_namespace": "ContainerInsights/Prometheus",
+          "metric_unit": {
+            "jvm_memory_bytes_used": "Bytes",
+            "http_server_requests_seconds_count": "Count",
+            "http_server_requests_seconds_sum": "Seconds"
+          },
+          "metric_declaration": [
+            {
+              "source_labels": ["Namespace"],
+              "label_matcher": "^kube-system$",
+              "dimensions": [["ClusterName", "Namespace"]],
+              "metric_selectors": [
+                "^coredns_dns_request_count_total$",
+                "^coredns_dns_response_rcode_count_total$"
+              ]
+            },
+            {
+              "source_labels": ["job"],
+              "label_matcher": "^kubernetes-pods$",
+              "dimensions": [
+                ["ClusterName", "Namespace"],
+                ["ClusterName", "Namespace", "PodName"]
+              ],
+              "metric_selectors": [
+                "^jvm_memory_bytes_used$",
+                "^http_server_requests_seconds_count$",
+                "^http_server_requests_seconds_sum$"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "force_flush_interval": 5
+  }
+}
