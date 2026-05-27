@@ -12,9 +12,11 @@ This is one of the more complex sections of the agent config. The structure spli
 
 ## Shape
 
+The prometheus block lives under **`logs.metrics_collected`**, not `metrics` — its EMF output flows through the CloudWatch Logs pipeline.
+
 ```json
 {
-  "metrics": {
+  "logs": {
     "metrics_collected": {
       "prometheus": {
         "prometheus_config_path": "/etc/cwagent-prom/prom-config.yaml",
@@ -135,6 +137,19 @@ scrape_configs:
 EKS uses standard Prometheus `kubernetes_sd_configs` inside the YAML — no special agent-side block. The agent itself runs as a DaemonSet (typically via the CloudWatch Container Insights setup) and uses an IRSA-bound service account for permissions.
 
 For container insights specifically, the upstream `prometheus-eks.yaml` ConfigMap manifest from AWS is the canonical starting point: <https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContainerInsights-Prometheus-Setup-configure.html>.
+
+### Container Insights `kubernetes` collector
+
+EKS Container Insights host/pod metrics use a separate `kubernetes` collector that — like `prometheus` — lives under **`logs.metrics_collected`**, not `metrics`. Fields:
+
+| Field | Notes |
+|---|---|
+| `cluster_name` | Required. Becomes the `ClusterName` dimension. |
+| `metrics_collection_interval` | Seconds. Optional override of the agent default. |
+| `jmx_container_insights` | Boolean. Enable JMX Container Insights metrics. |
+| `disable_metric_extraction` | Boolean. Skip extracting CloudWatch metrics from the EMF logs. |
+
+See `examples/eks-container-insights.json` for the full shape (it combines this collector with a `prometheus` block).
 
 ## When to bail to the docs
 

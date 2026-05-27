@@ -70,9 +70,11 @@ Compose the config in the canonical structure:
 {
   "agent":   { ... },
   "metrics": { "namespace": "...", "append_dimensions": { ... }, "metrics_collected": { ... } },
-  "logs":    { "logs_collected": { ... } }
+  "logs":    { "logs_collected": { ... }, "metrics_collected": { "prometheus": { ... } } }
 }
 ```
+
+Note the asymmetry: host metrics, statsd, collectd, and procstat go under `metrics.metrics_collected`, but `prometheus`, `kubernetes` (EKS Container Insights), and `app_signals` go under **`logs.metrics_collected`** because their output flows through the CloudWatch Logs pipeline.
 
 Use the field names verified in `reference/`. Examples in `examples/` show full working configs per scenario — open the closest one and adapt rather than building from memory.
 
@@ -86,7 +88,7 @@ The output file path is platform-dependent. Tell the user where it goes:
 
 The skill ships a pinned snapshot of the upstream schema at `schema/schema.json`. After composing the config, validate it:
 
-1. Read `schema/schema.json`. If the file is a placeholder (the bundled snapshot may be unpopulated — see `schema/README.md`), tell the user explicitly that validation is skipped and why, and offer the bump script as a fix.
+1. Read `schema/schema.json`. It ships populated, so validate against it. Only if it is somehow absent or empty, tell the user explicitly that validation is skipped and why, and offer the bump script as a fix.
 2. If the schema is populated, run a JSON Schema validation. You can do this inline (a few lines of Python with `jsonschema`, or `ajv` if Node is present) or shell out to a validator the user already has.
 3. Report any errors with the offending JSON path and a one-line explanation. Don't try to "auto-fix" silently — show the diff and let the user confirm.
 
@@ -135,7 +137,7 @@ When you're in the middle of step 3 and need to know which fields are valid, rea
 
 - `reference/metrics.md` — host metrics (Linux + Windows perfcounter equivalents), `append_dimensions`, `aggregation_dimensions`.
 - `reference/logs.md` — file tailing, Windows events, multi-line patterns, retention, template variables.
-- `reference/prometheus.md` — `prometheus_config_path`, EMF processor, ECS service discovery, EKS pod discovery.
+- `reference/prometheus.md` — `prometheus_config_path`, EMF processor, ECS service discovery, EKS pod discovery, EKS Container Insights (`kubernetes` collector).
 - `reference/statsd.md` — StatsD service_address, collectd, procstat selectors.
 
 When the user describes a scenario that matches one of these, open the corresponding example file and adapt — it's faster and lower-risk than composing from scratch:

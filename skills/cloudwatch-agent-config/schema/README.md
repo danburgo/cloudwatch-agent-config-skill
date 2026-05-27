@@ -11,7 +11,7 @@ Two reasons:
 
 ## Current snapshot
 
-`schema.json` — **placeholder. Not yet populated.** Run `scripts/bump-schema.sh` from the skill root to populate it, then commit the result.
+`schema.json` — populated draft-04 snapshot of the agent schema. Re-run `scripts/bump-schema.sh` from the skill root to refresh it from upstream, then commit the result.
 
 `SCHEMA_VERSION` — written by the bump script. Records the upstream commit SHA that the snapshot was taken from.
 
@@ -32,4 +32,4 @@ Always review the diff before committing. Upstream restructures break the valida
 
 ## If the snapshot is missing
 
-If `schema.json` is the placeholder (or absent), the wizard's validation step is a no-op and it tells the user explicitly that validation was skipped. The wizard continues to produce a config based on the field names documented in `reference/`, so the skill still works — you just don't get the schema-validation safety net.
+If `schema.json` is absent or empty, the wizard's validation step is a no-op and it tells the user explicitly that validation was skipped. The wizard continues to produce a config based on the field names documented in `reference/`, so the skill still works — you just don't get the schema-validation safety net.

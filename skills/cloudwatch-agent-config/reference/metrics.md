@@ -59,9 +59,9 @@ See `reference/statsd.md` for procstat selectors.
 ### `statsd`, `collectd`, `prometheus`
 See their dedicated cheat-sheets.
 
-## Windows `metrics_collected.perfcounter`
+## Windows performance counters
 
-Windows uses one collector — `perfcounter` — whose entries are Performance Monitor objects. Standard objects:
+On Windows, each Performance Monitor object is a key directly under `metrics_collected` — there is no `perfcounter` wrapper. Each object takes the same shape as a Linux subsystem: a `measurement` array plus an optional `resources` array. Standard objects:
 
 | Object name | Common measurements | Typical resources |
 |---|---|---|
@@ -74,16 +74,19 @@ Windows uses one collector — `perfcounter` — whose entries are Performance M
 | `System` | `Processor Queue Length`, `System Calls/sec`, `Context Switches/sec` | not used |
 | `TCPv4` / `TCPv6` | `Connections Established`, `Segments/sec` | not used |
 
-Each entry uses this shape:
+Each object uses this shape — the object name is the key, and `measurement` entries are plain counter-name strings or `{name, rename, unit}` objects:
 ```json
 {
-  "ObjectName": "LogicalDisk",
-  "Counters": ["% Free Space"],
-  "Instances": ["*"],
-  "Measurement": [
-    {"name": "% Free Space", "rename": "DiskFreePercent", "unit": "Percent"}
-  ],
-  "metrics_collection_interval": 60
+  "metrics_collected": {
+    "LogicalDisk": {
+      "measurement": [
+        {"name": "% Free Space", "rename": "DiskFreePercent", "unit": "Percent"},
+        "Free Megabytes"
+      ],
+      "resources": ["*"],
+      "metrics_collection_interval": 60
+    }
+  }
 }
 ```
 

@@ -82,7 +82,7 @@ See `skills/cloudwatch-agent-config/schema/README.md` for what the script does a
 
 ## Roadmap
 
-- [ ] Populate the pinned schema snapshot (currently a placeholder — see `schema/README.md`).
+- [x] Populate the pinned schema snapshot (see `schema/README.md`).
 - [ ] Add traces / X-Ray / OTLP support to the wizard.
 - [ ] Add CloudWatch Application Signals support.
 - [ ] Optional `--dry-run` mode that emits the wizard's plan without writing files.

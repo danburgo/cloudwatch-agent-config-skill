@@ -34,7 +34,7 @@ Each entry tails one file or glob. Fields:
 | Field | Required | Notes |
 |---|---|---|
 | `file_path` | yes | Absolute path. Supports `*` and `?` glob wildcards. E.g. `/var/log/nginx/access.log` or `/var/log/app/*.log`. |
-| `log_group_name` | yes | CloudWatch log group. Created if absent (if the IAM policy allows `logs:CreateLogGroup`). |
+| `log_group_name` | no | CloudWatch log group — **strongly recommended**; if omitted the agent derives the name from the file path. Created if absent (if the IAM policy allows `logs:CreateLogGroup`). |
 | `log_stream_name` | no | Defaults to the top-level `log_stream_name`. Supports template variables. |
 | `retention_in_days` | no | Sets retention on the log group. Valid: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 2192, 2557, 2922, 3288, 3653. Omit and the group keeps logs forever (expensive default). |
 | `timezone` | no | `UTC` or `Local`. Default `Local`. |
@@ -86,14 +86,16 @@ Each entry subscribes to a Windows event channel. Fields:
 
 | Field | Required | Notes |
 |---|---|---|
-| `event_name` | yes | Channel name. Common: `System`, `Application`, `Security`, `Setup`, `Forwarded Events`, or any custom channel name from Event Viewer. |
-| `event_levels` | yes | Array of severities to include. Valid: `"INFORMATION"`, `"WARNING"`, `"ERROR"`, `"CRITICAL"`, `"VERBOSE"`. |
-| `event_ids` | no | Array of specific numeric event IDs to include. Omit to take all matching the levels. |
-| `filters` | no | Array of `{type, expression}` — same shape as file filters. |
-| `log_group_name` | yes | CloudWatch log group. |
+| `event_name` | yes | Channel name. Common: `System`, `Application`, `Security`, `Setup`, or any custom channel name from Event Viewer. The agent rejects `Forwarded Events` — subscribe to the source channels instead. |
+| `event_levels` | one of¹ | Array of severities to include. Valid: `"INFORMATION"`, `"WARNING"`, `"ERROR"`, `"CRITICAL"`, `"VERBOSE"`. |
+| `event_ids` | one of¹ | Array of specific numeric event IDs to include. Omit to take all matching the levels. |
+| `filters` | one of¹ | Array of `{type, expression}` — same shape as file filters. |
+| `log_group_name` | no | CloudWatch log group — **strongly recommended**; if omitted the agent derives a default. |
 | `log_stream_name` | no | Defaults to the top-level value. |
 | `event_format` | no | `"xml"` (default) or `"text"`. XML preserves structured fields; text is human-friendlier. |
 | `retention_in_days` | no | Same valid values as files. |
+
+¹ The schema requires at least one of `event_levels`, `event_ids`, or `filters`. Specifying `event_levels` is the usual case.
 
 ### Minimal Windows-events example
 
