@@ -46,6 +46,8 @@ Each entry tails one file or glob. Fields:
 | `publish_multi_logs` | no | Boolean. If true, treats each match in the glob as a separate stream. |
 | `trim_timestamp` | no | Boolean. Default false. Removes the matched timestamp from the event body. |
 | `backpressure_mode` | no | Controls backpressure handling. See upstream docs — leave unset unless you've hit issues. |
+| `auto_removal` | no | Boolean. Delete the log file once it's been fully uploaded — handy for temporary or already-rotated logs. Default false. |
+| `log_group_class` | no | Log group storage class: `STANDARD` (default) or `INFREQUENT_ACCESS` (cheaper for logs you rarely query). |
 
 ### Minimal file-tail example
 
@@ -91,6 +93,7 @@ Each entry subscribes to a Windows event channel. Fields:
 | `event_ids` | one of¹ | Array of specific numeric event IDs to include. Omit to take all matching the levels. |
 | `filters` | one of¹ | Array of `{type, expression}` — same shape as file filters. |
 | `log_group_name` | no | CloudWatch log group — **strongly recommended**; if omitted the agent derives a default. |
+| `log_group_class` | no | Log group storage class: `STANDARD` (default) or `INFREQUENT_ACCESS`. |
 | `log_stream_name` | no | Defaults to the top-level value. |
 | `event_format` | no | `"xml"` (default) or `"text"`. XML preserves structured fields; text is human-friendlier. |
 | `retention_in_days` | no | Same valid values as files. |

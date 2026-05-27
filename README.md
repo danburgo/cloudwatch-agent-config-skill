@@ -9,7 +9,7 @@ Invoke it, answer a handful of questions, and you get a config that the agent wi
 - **Asks** for your platform (EC2 Linux, EC2 Windows, ECS, EKS) and which data you want to collect.
 - **Generates** a valid `amazon-cloudwatch-agent.json` using field names verified against the upstream [aws/amazon-cloudwatch-agent](https://github.com/aws/amazon-cloudwatch-agent) schema.
 - **Validates** the generated config against a bundled, version-pinned snapshot of the agent's JSON schema.
-- **Emits** a least-privilege IAM policy starter — narrowed to just the actions your config actually uses.
+- **Emits** an IAM policy starter scoped to the actions your config uses. (The multi-section `full.json` variant is the exception: it mirrors AWS's managed `CloudWatchAgentServerPolicy` and is intentionally a broader superset.)
 - **Points you** at the canonical install commands for your platform. (Install itself is out of scope; this skill is purely about config.)
 
 It does *not* install the agent, modify SSM parameters, restart services, or touch your AWS account. It writes a file.
@@ -45,7 +45,7 @@ claude --plugin-dir .
 │       ├── reference/             # Cheat-sheets per section (metrics, logs, prometheus, statsd)
 │       ├── examples/              # Curated, working configs per scenario
 │       ├── schema/                # Pinned upstream JSON schema (see schema/README.md)
-│       ├── assets/iam/            # Least-privilege IAM policy variants
+│       ├── assets/iam/            # IAM policy variants (scoped per use case; full.json = CloudWatchAgentServerPolicy superset)
 │       └── scripts/bump-schema.sh # Refresh the pinned schema from upstream
 ├── evals/
 │   └── evals.json                 # Test prompts used to iterate on the skill

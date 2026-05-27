@@ -101,7 +101,7 @@ Look at which sections the config actually uses, and pick the smallest IAM polic
 - Config uses only metrics → `assets/iam/metrics-only.json`
 - Config uses only logs → `assets/iam/logs-only.json`
 - Config uses Prometheus with EMF → `assets/iam/prometheus-emf.json` (PutMetricData + logs:* since EMF flows through CloudWatch Logs)
-- Config uses multiple sections → `assets/iam/full.json` (the canonical `CloudWatchAgentServerPolicy` equivalent)
+- Config uses multiple sections → `assets/iam/full.json` — a superset that mirrors the AWS-managed `CloudWatchAgentServerPolicy`, *not* a least-privilege set: it also grants X-Ray (`xray:*`) and `ssm:GetParameter`, which this wizard's configs don't use. Hand it over as a convenient default, but point the user at `assets/iam/README.md` to trim the statements their config doesn't need.
 
 Show the user the policy alongside the config, and remind them this is an *inline policy* template — they still need to attach it to the IAM role used by the agent's host (EC2 instance role, ECS task role, or EKS service account / IRSA).
 
