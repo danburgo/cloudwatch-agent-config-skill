@@ -19,7 +19,7 @@ It does *not* install the agent, modify SSM parameters, restart services, or tou
 ### From the Claude community plugin marketplace
 
 ```
-/plugin marketplace add danbur/claude-skill-cloudwatch-agent
+/plugin marketplace add danburgo/claude-skill-cloudwatch-agent
 /plugin install claude-skill-cloudwatch-agent
 ```
 
@@ -28,7 +28,7 @@ Then invoke via `/cloudwatch-agent-config` or just ask Claude to "help me write 
 ### Local development install
 
 ```
-git clone https://github.com/danbur/claude-skill-cloudwatch-agent.git
+git clone https://github.com/danburgo/claude-skill-cloudwatch-agent.git
 cd claude-skill-cloudwatch-agent
 claude --plugin-dir .
 ```

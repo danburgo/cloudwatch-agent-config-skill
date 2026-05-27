@@ -6,7 +6,7 @@
     "name": "Dan Burkhardt",
     "email": "danbur19@hotmail.com"
   },
-  "homepage": "https://github.com/danbur/claude-skill-cloudwatch-agent",
+  "homepage": "https://github.com/danburgo/claude-skill-cloudwatch-agent",
   "license": "Apache-2.0",
   "keywords": [
     "aws",
