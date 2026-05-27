@@ -1,0 +1,28 @@
+{
+  "name": "danburgo-cloudwatch-agent-config-skill",
+  "owner": {
+    "name": "Dan Burkhardt",
+    "email": "danbur19@hotmail.com"
+  },
+  "plugins": [
+    {
+      "name": "cloudwatch-agent-config",
+      "source": "./",
+      "description": "Interactive wizard skill for authoring Amazon CloudWatch Agent JSON configuration files across EC2 Linux, EC2 Windows, ECS, and EKS. Covers host metrics, log tailing, Prometheus scraping with EMF conversion, StatsD, collectd, and procstat — plus emits a least-privilege IAM policy snippet tailored to the chosen config.",
+      "version": "0.1.0",
+      "homepage": "https://github.com/danburgo/cloudwatch-agent-config-skill",
+      "license": "Apache-2.0",
+      "keywords": [
+        "aws",
+        "cloudwatch",
+        "amazon-cloudwatch-agent",
+        "observability",
+        "metrics",
+        "logs",
+        "prometheus",
+        "statsd",
+        "emf"
+      ]
+    }
+  ]
+}
