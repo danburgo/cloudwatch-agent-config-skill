@@ -1,4 +1,4 @@
-# claude-skill-cloudwatch-agent
+# cloudwatch-agent-config-skill
 
 A Claude Code skill that walks you through authoring an `amazon-cloudwatch-agent.json` configuration file. It exists to kill "blank page syndrome" — the moment where you know the CloudWatch agent supports what you need (host metrics, log tailing, Prometheus scraping, StatsD, procstat, Windows events, ECS/EKS service discovery), but staring at an empty JSON file is enough friction that you put it off another sprint.
 
@@ -19,8 +19,8 @@ It does *not* install the agent, modify SSM parameters, restart services, or tou
 ### From the Claude community plugin marketplace
 
 ```
-/plugin marketplace add danburgo/claude-skill-cloudwatch-agent
-/plugin install claude-skill-cloudwatch-agent
+/plugin marketplace add danburgo/cloudwatch-agent-config-skill
+/plugin install cloudwatch-agent-config
 ```
 
 Then invoke via `/cloudwatch-agent-config` or just ask Claude to "help me write a cloudwatch agent config" and it should trigger automatically.
@@ -28,8 +28,8 @@ Then invoke via `/cloudwatch-agent-config` or just ask Claude to "help me write 
 ### Local development install
 
 ```
-git clone https://github.com/danburgo/claude-skill-cloudwatch-agent.git
-cd claude-skill-cloudwatch-agent
+git clone https://github.com/danburgo/cloudwatch-agent-config-skill.git
+cd cloudwatch-agent-config-skill
 claude --plugin-dir .
 ```
 
